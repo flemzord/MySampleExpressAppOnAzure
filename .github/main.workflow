@@ -9,7 +9,7 @@ workflow "Continuous Integration" {
 action "get deployments debug" {
   uses = "actions/bin/curl@master"
   secrets = ["GITHUB_TOKEN"]
-  args = ["-v", "-H \"Authorization: token $GITHUB_TOKEN\"", "https://api.github.com/repos/octodemo/MySampleExpressAppOnAzure/deployments?ref=$(echo $GITHUB_REF | cut -f3 -d\"/\")", "> $HOME/deployments.json" ]
+  args = ["-v", "-H \"Authorization: token $GITHUB_TOKEN\"", "https://api.github.com/repos/$GITHUB_REPOSITORY/deployments?ref=$(echo $GITHUB_REF | cut -f3 -d\"/\")", "> $HOME/deployments.json" ]
 }
 
 action "udpate status" {
