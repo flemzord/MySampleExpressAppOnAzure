@@ -8,7 +8,7 @@ workflow "Continuous Integration" {
 
 action "curl" {
   uses = "actions/bin/curl@master"
-  args = ["-H \"Authorization: token $GITHUB_TOKEN\"", "https://api.github.com/repos/octodemo/MySampleExpressAppOnAzure/deployments?ref=$(echo $GITHUB_REF | cut -f3 -d\"/\")]"
+  args = ["-H \"Authorization: token $GITHUB_TOKEN\"", "https://api.github.com/repos/octodemo/MySampleExpressAppOnAzure/deployments?ref=$(echo $GITHUB_REF | cut -f3 -d\"/\")"]
   secrets = ["GITHUB_TOKEN"]
 }
 
