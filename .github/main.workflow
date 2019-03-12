@@ -220,5 +220,5 @@ action "Get Deployments" {
   uses = "actions/bin/curl@master"
   needs = ["Test Webapp List empty"]
   secrets = ["GITHUB_TOKEN"]
-  args = "https://api.github.com/repos/octodemo/MySampleExpressAppOnAzure/deployments?ref=${GITHUB_REF:11}"
+  args = "https://api.github.com/repos/octodemo/MySampleExpressAppOnAzure/deployments?ref=$(echo $GITHUB_REF | cut -f3 -d\"/\")"
 }
