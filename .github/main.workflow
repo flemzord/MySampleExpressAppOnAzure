@@ -51,8 +51,8 @@ action "Azure Login" {
     AZURE_SUBSCRIPTION = "PAYG - GitHub Billing"
     DOCKER_REGISTRY_URL = "octodemo.azurecr.io"
   }
-  secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
   args = "--name ${DOCKER_REGISTRY_URL}"
+  secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
 }
 
 action "Azure Registry Login" {
@@ -154,7 +154,11 @@ action "Azure Login for Cleanup" {
   env = {
     AZURE_SUBSCRIPTION = "PAYG - GitHub Billing"
   }
-  secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
+  secrets = [
+    "AZURE_SERVICE_APP_ID",
+    "AZURE_SERVICE_PASSWORD",
+    "AZURE_SERVICE_TENANT",
+  ]
   args = "--name octodemo.azurecr.io"
 }
 
