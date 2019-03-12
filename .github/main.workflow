@@ -2,15 +2,14 @@ workflow "Continuous Integration" {
   on = "push"
   resolves = [
     "Test",
-    "Get Deployments debug",
+    "curl",
   ]
 }
 
-action "Get Deployments debug" {
+action "curl" {
   uses = "actions/bin/curl@master"
-  needs = ["Test Webapp List empty"]
-  secrets = ["GITHUB_TOKEN"]
   args = "https://api.github.com/repos/octodemo/MySampleExpressAppOnAzure/deployments?ref=${GITHUB_REF:11}"
+  secrets = ["GITHUB_TOKEN"]
 }
 
 action "Install" {
@@ -28,7 +27,6 @@ workflow "Documentation" {
   on = "push"
   resolves = [
     "Generate doc",
-    "curl",
   ]
 }
 
@@ -222,10 +220,5 @@ action "Get Deployments" {
   uses = "actions/bin/curl@master"
   needs = ["Test Webapp List empty"]
   secrets = ["GITHUB_TOKEN"]
-  args = "https://api.github.com/repos/octodemo/MySampleExpressAppOnAzure/deployments?ref=${GITHUB_REF:11}"
-}
-
-action "curl" {
-  uses = "actions/bin/curl@master"
   args = "https://api.github.com/repos/octodemo/MySampleExpressAppOnAzure/deployments?ref=${GITHUB_REF:11}"
 }
