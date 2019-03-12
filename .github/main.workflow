@@ -16,7 +16,7 @@ action "udpate status" {
   uses = "helaili/jq-action@master"
   secrets = ["GITHUB_TOKEN"]
   needs = ["get deployments debug"]
-  args = ["-r .[].statuses_url $HOME/deployments.json | xargs -L1 -I'{}' curl -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.ant-man-preview+json\" -d '{\"state\": \"inactive\"}' {}"]
+  args = ["-r .[].statuses_url $HOME/deployments.json | xargs -L1 -I'{}' curl -v -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.ant-man-preview+json\" -d '{\"state\": \"inactive\"}' {}"]
 }
 
 action "Install" {
