@@ -18,7 +18,9 @@ action "Test" {
 
 workflow "Documentation" {
   on = "push"
-  resolves = ["Generate doc"]
+  resolves = [
+    "Generate doc",
+  ]
 }
 
 action "Filter for Doc generation" {
@@ -137,6 +139,7 @@ workflow "Clean up" {
   on = "pull_request"
   resolves = [
     "Delete Docker Repository",
+    "Udpate Deployment Status",
   ]
 }
 
@@ -208,4 +211,18 @@ action "Delete Docker Repository" {
     WEBAPP_NAME = "mysampleexpressapp-actions"
     AZURE_SCRIPT = "az acr repository delete --name octodemo --repository ${WEBAPP_NAME}/${GITHUB_REF:11} --yes"
   }
+}
+
+action "Get Deployments" {
+  uses = "actions/bin/curl@master"
+  needs = ["Test Webapp List empty"]
+  secrets = ["GITHUB_TOKEN"]
+  args = ["-v", "-H \"Authorization: token $GITHUB_TOKEN\"", "https://api.github.com/repos/$GITHUB_REPOSITORY/deployments?ref=$(echo $GITHUB_REF | cut -f3 -d\"/\")", "> $HOME/deployments.json" ]
+}
+
+action "Udpate Deployment Status" {
+  uses = "helaili/jq-action@master"
+  secrets = ["GITHUB_TOKEN"]
+  needs = ["Get Deployments"]
+  args = ["-r .[].statuses_url $HOME/deployments.json | xargs -L1 -I'{}' curl -v -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.ant-man-preview+json\" -d '{\"state\": \"inactive\"}' {}"]
 }
