@@ -2,7 +2,7 @@ workflow "Continuous Integration" {
   on = "push"
   resolves = [
     "Test",
-    "udpate status",
+    "udpate status"
   ]
 }
 
