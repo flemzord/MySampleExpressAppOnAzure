@@ -188,7 +188,7 @@ action "Delete Webapps" {
   needs = ["Test Webapp List empty"]
   env = {
     RESOURCE_GROUP = "github-octodemo"
-    AZURE_SCRIPT = "WEBAPP_ID_LIST=$(jq -j '.[].id+\" \"' $HOME/webapp-list.json) && az webapp delete --ids $WEBAPP_ID_LIST"
+    AZURE_SCRIPT = "WEBAPP_ID_LIST=$(jq -j '.[].id+\" \"' $HOME/webapp-list.json) && az webapp delete --ids $WEBAPP_ID_LIST --keep-empty-plan"
   }
 }
 
