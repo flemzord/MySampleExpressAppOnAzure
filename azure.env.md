@@ -1,6 +1,8 @@
 Need to create a resource group, registry and service plan
 
->az ad sp create-for-rbac
+Then get credentials: 
+
+az ad sp create-for-rbac
 {
   "appId": "xxxx",
   "displayName": "xx",
@@ -31,3 +33,8 @@ az webapp list --resource-group $RESOURCE_GROUP --query "[?tags.branch=='clean']
 
 
 az webapp delete --ids /subscriptions/282bf220-8943-485c-abaf-187252d34b78/resourceGroups/github-octodemo/providers/Microsoft.Web/serverfarms/github-octodemo-app-service-plan
+
+
+jq -j '.[].defaultHostName | match("mysampleexpressapp-actions-(.*).azurewebsites.net") | "mysampleexpressapp-actions:"+.captures[].string+ " "' test/fixtures/webapp-list.json
+
+az container list --resource-group $RESOURCE_GROUP --query "[?tags.branch=='clean']"
