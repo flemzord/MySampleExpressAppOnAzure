@@ -233,5 +233,5 @@ workflow "Issue Comment" {
 }
 
 action "debug" {
-  uses = "actions/bin/debug"
+  uses = "actions/bin/debug@master"
 }
