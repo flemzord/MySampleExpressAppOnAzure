@@ -235,3 +235,12 @@ workflow "Issue Comment" {
 action "debug" {
   uses = "actions/bin/debug@master"
 }
+
+workflow "Issues" {
+  on = "issues"
+  resolves = ["actions/bin/debug@master"]
+}
+
+action "actions/bin/debug@master" {
+  uses = "actions/bin/debug@master"
+}
