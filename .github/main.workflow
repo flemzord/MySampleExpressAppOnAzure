@@ -227,18 +227,13 @@ action "Udpate Deployment Status" {
   args = ["-r .[].statuses_url $HOME/deployments.json | xargs -L1 -I'{}' curl -v -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.ant-man-preview+json\" -d '{\"state\": \"inactive\"}' {}"]
 }
 
-workflow "Issue Comment" {
-  on = "issue_comment"
-  resolves = ["debug"]
-}
-
 action "debug" {
   uses = "actions/bin/debug@master"
 }
 
-workflow "Issues" {
-  on = "issues"
+workflow "New Sprint" {
   resolves = ["actions/bin/debug@master"]
+  on = "milestone"
 }
 
 action "actions/bin/debug@master" {
