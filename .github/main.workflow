@@ -232,10 +232,19 @@ action "debug" {
 }
 
 workflow "New Sprint" {
-  resolves = ["actions/bin/debug@master"]
   on = "milestone"
+  resolves = ["debug milestone"]
 }
 
-action "actions/bin/debug@master" {
+action "debug milestone" {
+  uses = "actions/bin/debug@master"
+}
+
+workflow "New workflow" {
+  on = "issues"
+  resolves = ["debug issue"]
+}
+
+action "debug issue" {
   uses = "actions/bin/debug@master"
 }
