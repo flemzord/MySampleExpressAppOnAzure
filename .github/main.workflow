@@ -217,7 +217,7 @@ action "Get Deployments" {
   uses = "actions/bin/curl@master"
   needs = ["Test Webapp List empty"]
   secrets = ["GITHUB_TOKEN"]
-  args = ["-v", "-H \"Authorization: token $GITHUB_TOKEN\"", "https://api.github.com/repos/$GITHUB_REPOSITORY/deployments?ref=$(echo $GITHUB_REF | cut -f3 -d\"/\")", "> $HOME/deployments.json" ]
+  args = ["-v", "-H \"Authorization: token $GITHUB_TOKEN\"", "https://api.github.com/repos/$GITHUB_REPOSITORY/deployments?ref=$(echo $GITHUB_REF | cut -f3 -d\"/\")", "> $HOME/deployments.json"]
 }
 
 action "Udpate Deployment Status" {
@@ -225,4 +225,26 @@ action "Udpate Deployment Status" {
   secrets = ["GITHUB_TOKEN"]
   needs = ["Get Deployments"]
   args = ["-r .[].statuses_url $HOME/deployments.json | xargs -L1 -I'{}' curl -v -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.ant-man-preview+json\" -d '{\"state\": \"inactive\"}' {}"]
+}
+
+action "debug" {
+  uses = "actions/bin/debug@master"
+}
+
+workflow "New Sprint" {
+  on = "milestone"
+  resolves = ["debug milestone"]
+}
+
+action "debug milestone" {
+  uses = "actions/bin/debug@master"
+}
+
+workflow "New workflow" {
+  on = "issues"
+  resolves = ["debug issue"]
+}
+
+action "debug issue" {
+  uses = "actions/bin/debug@master"
 }
